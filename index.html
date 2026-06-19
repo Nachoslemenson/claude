@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flecha Carga — Envíos Nacionales en Argentina</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #0D2B8E;
+  --blue-dark: #091F6B;
+  --red: #CC1111;
+  --red-dark: #AA0000;
+  --gray-50: #F8FAFF;
+  --gray-100: #EEF2FF;
+  --gray-200: #E0E7FF;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --shadow: 0 4px 24px rgba(13,43,142,0.10);
+  --shadow-lg: 0 12px 48px rgba(13,43,142,0.16);
+  --radius: 12px;
+  --radius-lg: 20px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--gray-900);background:#fff;overflow-x:hidden}
+
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(13,43,142,.08);transition:box-shadow .3s}
+.navbar.scrolled{box-shadow:0 2px 20px rgba(13,43,142,.10)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-box{background:var(--blue);padding:6px 10px;border-radius:8px;display:flex;flex-direction:column;align-items:center;line-height:1}
+.logo-flecha{color:#fff;font-size:13px;font-weight:700;font-style:italic;letter-spacing:.5px}
+.logo-carga{background:var(--red);color:#fff;font-size:10px;font-weight:900;letter-spacing:2px;padding:1px 6px;margin-top:2px;border-radius:2px}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--gray-700);font-size:14px;font-weight:500;padding:8px 14px;border-radius:8px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--blue);background:var(--gray-100)}
+.nav-cta{background:var(--blue)!important;color:#fff!important;font-weight:600!important}
+.nav-cta:hover,.nav-cta.active{background:var(--blue-dark)!important;color:#fff!important}
+.nav-mob{display:none;background:none;border:none;cursor:pointer;padding:8px;color:var(--blue)}
+.mobile-nav{display:none;position:fixed;top:68px;left:0;right:0;background:#fff;z-index:999;padding:16px;box-shadow:0 8px 32px rgba(0,0,0,.1);flex-direction:column;gap:4px}
+.mobile-nav.open{display:flex}
+.mobile-nav a{text-decoration:none;color:var(--gray-700);font-size:15px;font-weight:500;padding:12px 16px;border-radius:8px}
+.mobile-nav a:hover{background:var(--gray-100);color:var(--blue)}
+
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue) 60%,#1A40B0 100%);display:flex;align-items:center;position:relative;overflow:hidden;padding-top:68px}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-accent{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(204,17,17,.15) 0%,transparent 70%);top:-100px;right:-100px}
+.hero-content{max-width:1200px;margin:0 auto;padding:80px 24px;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero h1{font-size:clamp(34px,5vw,58px);font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px}
+.hero h1 span{color:#FF6B6B}
+.hero p{font-size:18px;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:32px}
+.hero-stats{display:flex;gap:32px}
+.stat-num{font-size:32px;font-weight:900;color:#fff}
+.stat-lbl{font-size:11px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:1px}
+
+/* TRACKER CARD */
+.tracker-card{background:#fff;border-radius:var(--radius-lg);padding:36px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+.tracker-card h3{font-size:22px;font-weight:800;margin-bottom:6px}
+.tracker-card p{font-size:14px;color:#6B7280;margin-bottom:24px}
+.tracker-input{width:100%;padding:16px 20px;border:2px solid var(--gray-200);border-radius:var(--radius);font-size:16px;font-family:inherit;outline:none;letter-spacing:1px;transition:border-color .2s;margin-bottom:12px}
+.tracker-input:focus{border-color:var(--blue)}
+.tracker-btn{width:100%;background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;border:none;padding:16px;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.tracker-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(204,17,17,.4)}
+.demo-codes{text-align:center;font-size:12px;color:#9CA3AF;margin-top:10px}
+.demo-codes span{color:var(--blue);cursor:pointer;font-weight:600;text-decoration:underline}
+.track-result{display:none;margin-top:20px;border-top:1px solid var(--gray-200);padding-top:20px}
+.track-result.show{display:block}
+.track-meta{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.track-id{font-size:13px;color:#6B7280}
+.track-id strong{color:var(--blue)}
+.track-route{font-size:14px;font-weight:700;margin-top:4px}
+.track-badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700}
+.b-transit{background:#FEF3C7;color:#D97706}
+.b-done{background:#D1FAE5;color:#059669}
+.b-branch{background:#DBEAFE;color:#1D4ED8}
+.timeline{list-style:none}
+.tstep{display:flex;gap:14px;padding-bottom:18px;position:relative}
+.tstep:not(:last-child)::after{content:'';position:absolute;left:10px;top:22px;bottom:0;width:2px;background:var(--gray-200)}
+.tstep.done::after{background:var(--blue)}
+.tdot{width:22px;height:22px;border-radius:50%;border:2px solid var(--gray-200);background:#fff;flex-shrink:0;margin-top:1px;z-index:1;display:flex;align-items:center;justify-content:center}
+.tstep.done .tdot{border-color:var(--blue);background:var(--blue)}
+.tstep.current .tdot{border-color:var(--red);background:var(--red);box-shadow:0 0 0 4px rgba(204,17,17,.15)}
+.tdot svg{width:10px;height:10px;color:#fff}
+.tstatus{font-size:13px;font-weight:600}
+.tstep:not(.done) .tstatus{color:#9CA3AF}
+.tloc{font-size:11px;color:#9CA3AF;margin-top:2px}
+.ttime{font-size:11px;color:#9CA3AF;flex-shrink:0;text-align:right}
+.not-found{display:none;text-align:center;padding:16px 0;color:var(--red);font-size:14px;font-weight:600}
+.not-found.show{display:block}
+
+/* HOW IT WORKS */
+.how{background:var(--gray-50)}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.how-steps::before{content:'';position:absolute;top:36px;left:calc(16.66% + 16px);right:calc(16.66% + 16px);height:2px;background:linear-gradient(90deg,var(--blue),var(--red));z-index:0}
+.how-step{text-align:center;padding:0 24px;position:relative;z-index:1}
+.how-num{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#1A40B0);color:#fff;font-size:26px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 6px 20px rgba(13,43,142,.3)}
+.how-title{font-size:17px;font-weight:800;margin-bottom:10px}
+.how-desc{font-size:14px;color:#6B7280;line-height:1.6}
+
+/* SECTIONS */
+.section{padding:96px 24px}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-tag{display:inline-block;background:var(--gray-100);color:var(--blue);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:16px}
+.section-title{font-size:clamp(26px,4vw,42px);font-weight:900;line-height:1.2;margin-bottom:14px}
+.section-title span{color:var(--red)}
+.section-desc{font-size:16px;color:#6B7280;line-height:1.7;max-width:580px;margin-bottom:56px}
+
+/* COTIZADOR */
+.cotizador-wrap{background:linear-gradient(135deg,var(--blue-dark),var(--blue));border-radius:var(--radius-lg);padding:48px;box-shadow:var(--shadow-lg)}
+.cotizador-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.cotizador-left h2{font-size:32px;font-weight:900;color:#fff;margin-bottom:12px}
+.cotizador-left p{font-size:15px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:32px}
+.cotizador-feature{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.85);font-size:14px;margin-bottom:12px}
+.cotizador-feature span{font-size:18px}
+.cotizador-form{background:#fff;border-radius:var(--radius-lg);padding:32px}
+.cotizador-form h3{font-size:18px;font-weight:800;margin-bottom:24px}
+.cfield{margin-bottom:16px}
+.clabel{display:block;font-size:12px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.cselect,.cinput{width:100%;padding:12px 16px;border:2px solid var(--gray-200);border-radius:var(--radius);font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;background:#fff;cursor:pointer}
+.cselect:focus,.cinput:focus{border-color:var(--blue)}
+.ctype-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ctype-opt{border:2px solid var(--gray-200);border-radius:var(--radius);padding:12px;cursor:pointer;text-align:center;transition:all .2s;user-select:none}
+.ctype-opt.selected{border-color:var(--blue);background:var(--gray-100)}
+.ctype-opt .ctype-name{font-size:14px;font-weight:700;color:var(--gray-900)}
+.ctype-opt .ctype-time{font-size:11px;color:#6B7280;margin-top:2px}
+.calc-btn{width:100%;background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;border:none;padding:14px;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:20px}
+.calc-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(204,17,17,.4)}
+.calc-result{display:none;margin-top:20px;padding:20px;background:var(--gray-50);border-radius:var(--radius);border:2px solid var(--gray-200)}
+.calc-result.show{display:block}
+.calc-price{font-size:36px;font-weight:900;color:var(--blue)}
+.calc-price sup{font-size:16px;vertical-align:top;margin-top:6px;display:inline-block}
+.calc-detail{font-size:13px;color:#6B7280;margin-top:4px;line-height:1.5}
+.calc-cta{display:block;text-align:center;background:var(--blue);color:#fff;padding:12px;border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:14px;margin-top:14px;border:none;font-family:inherit;cursor:pointer;width:100%;transition:all .2s}
+.calc-cta:hover{background:var(--blue-dark)}
+
+/* SERVICES */
+.services{background:var(--gray-50)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px}
+.svc-card{background:#fff;border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow);transition:all .3s;border:1px solid transparent}
+.svc-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--gray-200)}
+.svc-icon{font-size:28px;margin-bottom:18px;width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.ic-b{background:var(--gray-100)}.ic-r{background:#FEE2E2}.ic-y{background:#FEF3C7}.ic-g{background:#D1FAE5}
+.svc-name{font-size:18px;font-weight:800;margin-bottom:10px}
+.svc-desc{font-size:14px;color:#6B7280;line-height:1.6;margin-bottom:14px}
+.svc-tag{font-size:12px;font-weight:600;color:var(--blue);background:var(--gray-100);padding:4px 10px;border-radius:6px}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px;align-items:start}
+.price-card{background:#fff;border-radius:var(--radius-lg);padding:36px;box-shadow:var(--shadow);border:2px solid transparent;transition:all .3s;position:relative;overflow:hidden}
+.price-card.hot{border-color:var(--blue);transform:scale(1.03)}
+.price-card.hot::before{content:'MÁS POPULAR';position:absolute;top:22px;right:-28px;background:var(--red);color:#fff;font-size:9px;font-weight:800;letter-spacing:1px;padding:4px 40px;transform:rotate(45deg)}
+.price-card:hover:not(.hot){border-color:var(--gray-200);box-shadow:var(--shadow-lg)}
+.price-name{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6B7280;margin-bottom:10px}
+.price-val{font-size:42px;font-weight:900;line-height:1;margin-bottom:4px}
+.price-val sup{font-size:18px;font-weight:600;color:#9CA3AF;vertical-align:top;margin-top:8px;display:inline-block}
+.price-range{font-size:13px;color:#9CA3AF;margin-bottom:24px}
+.price-div{height:1px;background:var(--gray-200);margin-bottom:24px}
+.price-feats{list-style:none}
+.price-feat{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--gray-700);padding:8px 0;border-bottom:1px solid var(--gray-100)}
+.price-feat:last-child{border-bottom:none}
+.feat-ok{color:#059669}
+.price-btn{display:block;width:100%;text-align:center;background:var(--blue);color:#fff;padding:14px;border-radius:var(--radius);font-weight:700;font-size:15px;margin-top:24px;border:none;font-family:inherit;cursor:pointer;transition:all .2s}
+.price-btn:hover{background:var(--blue-dark);transform:translateY(-1px)}
+.price-card.hot .price-btn{background:var(--red)}
+.price-card.hot .price-btn:hover{background:var(--red-dark)}
+.price-note{text-align:center;font-size:12px;color:#9CA3AF;margin-top:20px}
+
+/* COVERAGE */
+.coverage{background:var(--gray-50)}
+.provinces{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+.prov{background:#fff;border-radius:var(--radius);padding:13px 16px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--gray-700);box-shadow:0 2px 8px rgba(0,0,0,.05);transition:all .2s;border:1px solid transparent}
+.prov:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px)}
+.prov-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0}
+
+/* BRANCHES */
+.branches-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:28px}
+.branch{background:#fff;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow);transition:all .2s}
+.branch:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.branch-map{width:100%;height:200px;border:none;display:block}
+.branch-body{padding:24px;border-left:4px solid var(--blue)}
+.branch-city{font-size:17px;font-weight:800;margin-bottom:12px}
+.branch-row{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#6B7280;margin-bottom:8px}
+.branch-badge{display:inline-block;background:var(--gray-100);color:var(--blue);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:6px}
+
+/* CONTACT */
+.contact-section{background:var(--gray-900)}
+.contact-section .section-tag{background:rgba(255,255,255,.1);color:#93C5FD}
+.contact-section .section-title{color:#fff}
+.contact-section .section-desc{color:#9CA3AF}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.contact-items{display:flex;flex-direction:column;gap:24px}
+.citem{display:flex;align-items:flex-start;gap:16px}
+.cicon{width:48px;height:48px;background:rgba(255,255,255,.08);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.clabel-c{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#6B7280;margin-bottom:4px}
+.cval{font-size:15px;color:#fff;font-weight:500}
+.contact-form{background:rgba(255,255,255,.05);border-radius:var(--radius-lg);padding:36px;border:1px solid rgba(255,255,255,.08)}
+.flabel{display:block;font-size:13px;font-weight:600;color:#9CA3AF;margin-bottom:6px}
+.finput{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:13px 16px;color:#fff;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;margin-bottom:14px}
+.finput::placeholder{color:#4B5563}
+.finput:focus{border-color:rgba(255,255,255,.3)}
+textarea.finput{resize:vertical;min-height:100px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fsubmit{width:100%;background:var(--red);color:#fff;border:none;padding:14px;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:4px}
+.fsubmit:hover{background:var(--red-dark);transform:translateY(-1px)}
+
+/* FOOTER */
+footer{background:#050E27;padding:36px 24px}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.fcopy{font-size:13px;color:#4B5563}
+.flinks{display:flex;gap:24px}
+.flinks a{font-size:13px;color:#4B5563;text-decoration:none;transition:color .2s}
+.flinks a:hover{color:#fff}
+
+/* WHATSAPP BUTTON */
+.wa-btn{position:fixed;bottom:28px;right:28px;z-index:900;width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.45);transition:all .2s;text-decoration:none}
+.wa-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.6)}
+.wa-btn svg{width:30px;height:30px;fill:#fff}
+.wa-tooltip{position:absolute;right:68px;background:var(--gray-900);color:#fff;font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.wa-tooltip::after{content:'';position:absolute;right:-6px;top:50%;transform:translateY(-50%);border:6px solid transparent;border-left-color:var(--gray-900);border-right:none}
+.wa-btn:hover .wa-tooltip{opacity:1}
+
+/* BACK TO TOP */
+.top-btn{position:fixed;bottom:98px;right:28px;z-index:900;width:44px;height:44px;background:#fff;border:2px solid var(--gray-200);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.1);transition:all .3s;opacity:0;transform:translateY(10px);pointer-events:none}
+.top-btn.show{opacity:1;transform:translateY(0);pointer-events:all}
+.top-btn:hover{background:var(--blue);border-color:var(--blue)}
+.top-btn:hover svg{stroke:#fff}
+.top-btn svg{width:18px;height:18px;stroke:var(--gray-700);fill:none;stroke-width:2.5;transition:stroke .2s}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* NOTIFY */
+.notify{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--gray-900);color:#fff;padding:14px 24px;border-radius:12px;font-size:14px;font-weight:500;z-index:9999;opacity:0;transition:all .3s;white-space:nowrap}
+.notify.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* HOVER ENHANCEMENTS */
+.logo-box{transition:transform .2s,opacity .2s}
+.logo:hover .logo-box{transform:scale(1.05);opacity:.85}
+.tracker-input:hover:not(:focus),
+.cselect:hover:not(:focus),
+.cinput:hover:not(:focus),
+.finput:hover:not(:focus){border-color:rgba(13,43,142,.35);cursor:text}
+.cselect:hover:not(:focus){cursor:pointer}
+.ctype-opt:hover:not(.selected){border-color:var(--blue);background:var(--gray-100);color:var(--blue)}
+.demo-codes span:hover{color:var(--blue-dark);text-decoration-style:solid}
+.price-card.hot:hover{transform:scale(1.06);box-shadow:0 20px 60px rgba(13,43,142,.22)}
+.branch-badge{transition:background .2s,color .2s}
+.branch-body a,.branch-row{transition:color .2s}
+.how-num{transition:transform .2s,box-shadow .2s}
+.how-step:hover .how-num{transform:scale(1.08);box-shadow:0 10px 28px rgba(13,43,142,.4)}
+.svc-icon{transition:transform .2s}
+.svc-card:hover .svc-icon{transform:scale(1.12)}
+.flinks a{position:relative}
+.flinks a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;background:#fff;transition:width .2s}
+.flinks a:hover::after{width:100%}
+button,a,[onclick]{cursor:pointer}
+input,textarea,select{cursor:text}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero-content{grid-template-columns:1fr;gap:36px}
+  .hero-text{text-align:center}
+  .hero-stats{justify-content:center}
+  .contact-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .nav-mob{display:block}
+  .price-card.hot{transform:none}
+  .how-steps{grid-template-columns:1fr;gap:32px}
+  .how-steps::before{display:none}
+  .cotizador-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .frow{grid-template-columns:1fr}
+  .section{padding:70px 16px}
+  .cotizador-wrap{padding:28px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-box">
+        <span class="logo-flecha">flecha</span>
+        <span class="logo-carga">CARGA</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#rastreo" data-section="rastreo">Rastrear envío</a></li>
+      <li><a href="#servicios" data-section="servicios">Servicios</a></li>
+      <li><a href="#cotizador" data-section="cotizador">Cotizador</a></li>
+      <li><a href="#cobertura" data-section="cobertura">Cobertura</a></li>
+      <li><a href="#sucursales" data-section="sucursales">Sucursales</a></li>
+      <li><a href="#contacto" data-section="contacto" class="nav-cta">Contacto</a></li>
+    </ul>
+    <button class="nav-mob" onclick="toggleNav()">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#rastreo" onclick="closeNav()">Rastrear envío</a>
+  <a href="#servicios" onclick="closeNav()">Servicios</a>
+  <a href="#cotizador" onclick="closeNav()">Cotizador</a>
+  <a href="#cobertura" onclick="closeNav()">Cobertura</a>
+  <a href="#sucursales" onclick="closeNav()">Sucursales</a>
+  <a href="#contacto" onclick="closeNav()">Contacto</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="rastreo">
+  <div class="hero-accent"></div>
+  <div class="hero-content">
+    <div class="hero-text fade-up">
+      <h1>Enviamos a todo el <span>país</span></h1>
+      <p>Envíos rápidos y seguros a las 24 provincias de Argentina. Tu carga en las mejores manos.</p>
+      <div class="hero-stats">
+        <div><div class="stat-num">24</div><div class="stat-lbl">Provincias</div></div>
+        <div><div class="stat-num">2</div><div class="stat-lbl">Sucursales</div></div>
+        <div><div class="stat-num">+10</div><div class="stat-lbl">Años</div></div>
+      </div>
+    </div>
+    <div class="tracker-card fade-up" style="transition-delay:.15s">
+      <h3>🔍 Rastreá tu envío</h3>
+      <p>Ingresá tu código de seguimiento</p>
+      <input type="text" class="tracker-input" id="trackInput" placeholder="Ej: FC-2024001" maxlength="20" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')trackPackage()">
+      <button class="tracker-btn" onclick="trackPackage()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Rastrear
+      </button>
+      <div class="demo-codes">Probá con: <span onclick="tryCode('FC-2024001')">FC-2024001</span> · <span onclick="tryCode('FC-2024002')">FC-2024002</span> · <span onclick="tryCode('FC-2024003')">FC-2024003</span></div>
+      <div class="track-result" id="trackResult">
+        <div class="track-meta">
+          <div><div class="track-id">Código: <strong id="tCode"></strong></div><div class="track-route" id="tRoute"></div></div>
+          <span class="track-badge" id="tBadge"></span>
+        </div>
+        <ul class="timeline" id="tTimeline"></ul>
+      </div>
+      <div class="not-found" id="notFound">❌ Código no encontrado. Verificá el número e intentá de nuevo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how" id="como">
+  <div class="section-inner">
+    <div class="fade-up" style="text-align:center;margin-bottom:60px">
+      <span class="section-tag">¿Cómo funciona?</span>
+      <h2 class="section-title">Simple, rápido y <span>sin vueltas</span></h2>
+    </div>
+    <div class="how-steps fade-up">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <div class="how-title">Acercá tu paquete</div>
+        <div class="how-desc">Llevalo a una de nuestras sucursales o solicitá un retiro a domicilio sin costo adicional.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <div class="how-title">Lo enviamos</div>
+        <div class="how-desc">Procesamos y despachamos tu carga con total seguridad hacia el destino elegido.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <div class="how-title">Seguí cada paso</div>
+        <div class="how-desc">Rastreá tu envío en tiempo real desde esta página con tu código de seguimiento.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section services" id="servicios">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-tag">Servicios</span>
+      <h2 class="section-title">Soluciones para <span>cada envío</span></h2>
+      <p class="section-desc">Desde paquetes pequeños hasta cargas industriales, tenemos lo que necesitás.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card fade-up"><div class="svc-icon ic-b">📦</div><div class="svc-name">Envío Estándar</div><div class="svc-desc">Para paquetes de hasta 30 kg. Entrega en 3 a 5 días hábiles a todo el país.</div><span class="svc-tag">3–5 días hábiles</span></div>
+      <div class="svc-card fade-up" style="transition-delay:.1s"><div class="svc-icon ic-r">⚡</div><div class="svc-name">Envío Express</div><div class="svc-desc">Cuando el tiempo importa. Tu envío llega en 24 a 48 horas hábiles.</div><span class="svc-tag">24–48 hs</span></div>
+      <div class="svc-card fade-up" style="transition-delay:.2s"><div class="svc-icon ic-y">🚛</div><div class="svc-name">Carga Pesada</div><div class="svc-desc">Transporte especializado para cargas de más de 30 kg, pallets y envíos industriales.</div><span class="svc-tag">+30 kg</span></div>
+      <div class="svc-card fade-up" style="transition-delay:.3s"><div class="svc-icon ic-g">🏠</div><div class="svc-name">Puerta a Puerta</div><div class="svc-desc">Retiramos en tu domicilio y entregamos directamente en el destino. Sin complicaciones.</div><span class="svc-tag">Sin moverte</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COTIZADOR -->
+<section class="section" id="cotizador">
+  <div class="section-inner">
+    <div class="cotizador-wrap fade-up">
+      <div class="cotizador-grid">
+        <div class="cotizador-left">
+          <h2>Cotizá tu envío al instante</h2>
+          <p>Completá los datos y obtené una estimación de precio en segundos, sin necesidad de llamar.</p>
+          <div class="cotizador-feature"><span>✅</span> Sin costos ocultos</div>
+          <div class="cotizador-feature"><span>✅</span> Precio estimado al instante</div>
+          <div class="cotizador-feature"><span>✅</span> Cobertura en todo el país</div>
+          <div class="cotizador-feature"><span>✅</span> Seguro incluido en todos los envíos</div>
+        </div>
+        <div class="cotizador-form">
+          <h3>💰 Calculá el precio</h3>
+          <div class="cfield">
+            <label class="clabel">Destino</label>
+            <select class="cselect" id="cDest">
+              <option value="">Seleccioná la provincia</option>
+              <optgroup label="Zona 1 — CABA y GBA">
+                <option value="1">CABA</option>
+                <option value="1">Buenos Aires (GBA)</option>
+              </optgroup>
+              <optgroup label="Zona 2 — Centro / Litoral">
+                <option value="2">Buenos Aires (interior)</option>
+                <option value="2">Córdoba</option>
+                <option value="2">Santa Fe</option>
+                <option value="2">Entre Ríos</option>
+                <option value="2">La Pampa</option>
+              </optgroup>
+              <optgroup label="Zona 3 — Interior">
+                <option value="3">Mendoza</option>
+                <option value="3">Tucumán</option>
+                <option value="3">Salta</option>
+                <option value="3">Jujuy</option>
+                <option value="3">Misiones</option>
+                <option value="3">Corrientes</option>
+                <option value="3">Chaco</option>
+                <option value="3">Santiago del Estero</option>
+                <option value="3">San Juan</option>
+                <option value="3">San Luis</option>
+                <option value="3">Catamarca</option>
+                <option value="3">La Rioja</option>
+                <option value="3">Río Negro</option>
+                <option value="3">Neuquén</option>
+                <option value="3">Formosa</option>
+              </optgroup>
+              <optgroup label="Zona 4 — Patagonia">
+                <option value="4">Chubut</option>
+                <option value="4">Santa Cruz</option>
+                <option value="4">Tierra del Fuego</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="cfield">
+            <label class="clabel">Peso del paquete (kg)</label>
+            <input type="number" class="cinput" id="cPeso" placeholder="Ej: 3.5" min="0.1" max="500" step="0.1">
+          </div>
+          <div class="cfield">
+            <label class="clabel">Tipo de envío</label>
+            <div class="ctype-row">
+              <div class="ctype-opt selected" id="optEstandar" onclick="selectTipo('estandar')">
+                <div class="ctype-name">📦 Estándar</div>
+                <div class="ctype-time">3–5 días hábiles</div>
+              </div>
+              <div class="ctype-opt" id="optExpress" onclick="selectTipo('express')">
+                <div class="ctype-name">⚡ Express</div>
+                <div class="ctype-time">24–48 hs</div>
+              </div>
+            </div>
+          </div>
+          <button class="calc-btn" onclick="calcularPrecio()">Calcular precio →</button>
+          <div class="calc-result" id="calcResult">
+            <div class="calc-price"><sup>$</sup><span id="calcPrecio"></span></div>
+            <div class="calc-detail" id="calcDetalle"></div>
+            <button class="calc-cta" onclick="goContact()">Confirmar envío →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="tarifas">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-tag">Tarifas</span>
+      <h2 class="section-title">Precios <span>transparentes</span></h2>
+      <p class="section-desc">Sin costos ocultos. Elegí el plan que mejor se adapte a tu envío.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card fade-up">
+        <div class="price-name">Económico</div>
+        <div class="price-val"><sup>$</sup>3.500</div>
+        <div class="price-range">Hasta 1 kg · Zona GBA</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li class="price-feat"><span class="feat-ok">✓</span> 3–5 días hábiles</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Rastreo online</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Hasta 1 kg</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Seguro básico</li>
+        </ul>
+        <button class="price-btn" onclick="goContact()">Cotizar envío</button>
+      </div>
+      <div class="price-card hot fade-up" style="transition-delay:.1s">
+        <div class="price-name">Estándar</div>
+        <div class="price-val"><sup>$</sup>7.200</div>
+        <div class="price-range">Hasta 5 kg · Todo el país</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li class="price-feat"><span class="feat-ok">✓</span> 2–3 días hábiles</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Rastreo en tiempo real</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Hasta 5 kg</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Seguro ampliado</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Notificaciones</li>
+        </ul>
+        <button class="price-btn" onclick="goContact()">Cotizar envío</button>
+      </div>
+      <div class="price-card fade-up" style="transition-delay:.2s">
+        <div class="price-name">Express</div>
+        <div class="price-val"><sup>$</sup>14.500</div>
+        <div class="price-range">Hasta 20 kg · Todo el país</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li class="price-feat"><span class="feat-ok">✓</span> 24–48 horas</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Rastreo prioritario</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Hasta 20 kg</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Seguro total</li>
+          <li class="price-feat"><span class="feat-ok">✓</span> Atención 24/7</li>
+        </ul>
+        <button class="price-btn" onclick="goContact()">Cotizar envío</button>
+      </div>
+    </div>
+    <p class="price-note">* Precios orientativos. Usá el cotizador para una estimación más precisa según tu envío.</p>
+  </div>
+</section>
+
+<!-- COVERAGE -->
+<section class="section coverage" id="cobertura">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-tag">Cobertura</span>
+      <h2 class="section-title">Llegamos a <span>toda Argentina</span></h2>
+      <p class="section-desc">Las 24 provincias del país. Desde la Puna hasta la Patagonia.</p>
+    </div>
+    <div class="provinces fade-up">
+      <div class="prov"><span class="prov-dot"></span>Buenos Aires</div>
+      <div class="prov"><span class="prov-dot"></span>CABA</div>
+      <div class="prov"><span class="prov-dot"></span>Córdoba</div>
+      <div class="prov"><span class="prov-dot"></span>Santa Fe</div>
+      <div class="prov"><span class="prov-dot"></span>Mendoza</div>
+      <div class="prov"><span class="prov-dot"></span>Tucumán</div>
+      <div class="prov"><span class="prov-dot"></span>Entre Ríos</div>
+      <div class="prov"><span class="prov-dot"></span>Salta</div>
+      <div class="prov"><span class="prov-dot"></span>Misiones</div>
+      <div class="prov"><span class="prov-dot"></span>Chaco</div>
+      <div class="prov"><span class="prov-dot"></span>Corrientes</div>
+      <div class="prov"><span class="prov-dot"></span>Santiago del Estero</div>
+      <div class="prov"><span class="prov-dot"></span>San Juan</div>
+      <div class="prov"><span class="prov-dot"></span>Jujuy</div>
+      <div class="prov"><span class="prov-dot"></span>Río Negro</div>
+      <div class="prov"><span class="prov-dot"></span>Neuquén</div>
+      <div class="prov"><span class="prov-dot"></span>Formosa</div>
+      <div class="prov"><span class="prov-dot"></span>Chubut</div>
+      <div class="prov"><span class="prov-dot"></span>San Luis</div>
+      <div class="prov"><span class="prov-dot"></span>Catamarca</div>
+      <div class="prov"><span class="prov-dot"></span>La Rioja</div>
+      <div class="prov"><span class="prov-dot"></span>La Pampa</div>
+      <div class="prov"><span class="prov-dot"></span>Santa Cruz</div>
+      <div class="prov"><span class="prov-dot"></span>Tierra del Fuego</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANCHES -->
+<section class="section" id="sucursales">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-tag">Sucursales</span>
+      <h2 class="section-title">Encontranos <span>cerca tuyo</span></h2>
+      <p class="section-desc">Dos sucursales en Capital Federal, listas para recibir tu carga.</p>
+    </div>
+    <div class="branches-grid">
+      <div class="branch fade-up">
+        <iframe class="branch-map" loading="lazy" allowfullscreen
+          src="https://maps.google.com/maps?q=Av+Jorge+Newbery+1741+Buenos+Aires+Argentina&output=embed&hl=es&z=16">
+        </iframe>
+        <div class="branch-body">
+          <div class="branch-city">📍 Palermo – CABA</div>
+          <div class="branch-row"><span>🏢</span><span>Av. Jorge Newbery 1741, C1426 Buenos Aires</span></div>
+          <div class="branch-row"><span>📞</span><span>011-7905-4963</span></div>
+          <div class="branch-row"><span>🕐</span><span>Lun–Vie 8:00 a 18:00 · Sáb 9:00 a 13:00</span></div>
+          <span class="branch-badge">Sucursal Newbery</span>
+        </div>
+      </div>
+      <div class="branch fade-up" style="transition-delay:.1s">
+        <iframe class="branch-map" loading="lazy" allowfullscreen
+          src="https://maps.google.com/maps?q=Av+Raul+Scalabrini+Ortiz+1985+Buenos+Aires+Argentina&output=embed&hl=es&z=16">
+        </iframe>
+        <div class="branch-body">
+          <div class="branch-city">📍 Palermo Soho – CABA</div>
+          <div class="branch-row"><span>🏢</span><span>Av. Raúl Scalabrini Ortiz 1985, C1414 Buenos Aires</span></div>
+          <div class="branch-row"><span>📞</span><span>011-7905-4963</span></div>
+          <div class="branch-row"><span>🕐</span><span>Lun–Vie 8:00 a 18:00 · Sáb 9:00 a 13:00</span></div>
+          <span class="branch-badge">Sucursal Scalabrini</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact-section" id="contacto">
+  <div class="section-inner">
+    <div class="fade-up">
+      <span class="section-tag">Contacto</span>
+      <h2 class="section-title">Hablemos <span>hoy</span></h2>
+      <p class="section-desc">¿Consulta o cotización? Completá el formulario y te respondemos a la brevedad.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-items fade-up">
+        <div class="citem"><div class="cicon">📞</div><div><div class="clabel-c">Teléfono</div><div class="cval">011-7905-4963</div></div></div>
+        <div class="citem"><div class="cicon">📧</div><div><div class="clabel-c">Email</div><div class="cval">info@flechacarga.com.ar</div></div></div>
+        <div class="citem"><div class="cicon">📍</div><div><div class="clabel-c">Sucursal principal</div><div class="cval">Av. Jorge Newbery 1741, CABA</div></div></div>
+        <div class="citem"><div class="cicon">🕐</div><div><div class="clabel-c">Horario</div><div class="cval">Lun–Vie 8:00 a 18:00 hs</div></div></div>
+      </div>
+      <div class="contact-form fade-up" style="transition-delay:.15s">
+        <div class="frow">
+          <div><label class="flabel">Nombre</label><input type="text" class="finput" placeholder="Tu nombre"></div>
+          <div><label class="flabel">Teléfono</label><input type="tel" class="finput" placeholder="+54 11 ..."></div>
+        </div>
+        <label class="flabel">Email</label>
+        <input type="email" class="finput" placeholder="tu@email.com">
+        <label class="flabel">Tipo de consulta</label>
+        <select class="finput" style="appearance:none;cursor:pointer">
+          <option value="">Seleccioná una opción</option>
+          <option>Cotización de envío</option>
+          <option>Estado de un envío</option>
+          <option>Carga pesada / volumen</option>
+          <option>Otra consulta</option>
+        </select>
+        <label class="flabel">Mensaje</label>
+        <textarea class="finput" placeholder="Contanos qué necesitás..."></textarea>
+        <button class="fsubmit" onclick="submitForm(event)">Enviar consulta →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="fcopy">© 2026 Flecha Carga. Todos los derechos reservados.</span>
+    <div class="flinks">
+      <a href="#rastreo">Rastrear</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#cotizador">Cotizador</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP BUTTON -->
+<a class="wa-btn" href="https://wa.me/5491179054963?text=Hola%2C%20me%20gustar%C3%ADa%20consultar%20sobre%20un%20env%C3%ADo" target="_blank" rel="noopener">
+  <span class="wa-tooltip">Escribinos por WhatsApp</span>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</a>
+
+<!-- BACK TO TOP -->
+<button class="top-btn" id="topBtn" onclick="scrollToTop()" title="Volver arriba">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<div class="notify" id="notify"></div>
+
+<script>
+// ---- TRACKING ----
+const DB = {
+  'FC-2024001': {status:'En tránsito',badge:'b-transit',origin:'Buenos Aires',dest:'Córdoba',
+    steps:[
+      {date:'17/06 08:15',text:'Paquete recibido en sucursal',loc:'Sucursal Newbery – CABA',done:true,cur:false},
+      {date:'17/06 14:30',text:'En camino al centro de distribución',loc:'Buenos Aires',done:true,cur:false},
+      {date:'18/06 06:00',text:'En tránsito hacia destino',loc:'Ruta Nacional 9',done:true,cur:true},
+      {date:'19/06 12:00',text:'Entrega programada',loc:'Córdoba Capital',done:false,cur:false},
+    ]},
+  'FC-2024002': {status:'Entregado',badge:'b-done',origin:'Buenos Aires',dest:'Mendoza',
+    steps:[
+      {date:'15/06 09:00',text:'Paquete recibido en sucursal',loc:'Sucursal Scalabrini – CABA',done:true,cur:false},
+      {date:'15/06 17:00',text:'Salida hacia destino',loc:'Buenos Aires',done:true,cur:false},
+      {date:'16/06 22:00',text:'Llegada a sucursal destino',loc:'Mendoza Capital',done:true,cur:false},
+      {date:'17/06 11:30',text:'✅ Entregado al destinatario',loc:'Mendoza',done:true,cur:false},
+    ]},
+  'FC-2024003': {status:'En sucursal destino',badge:'b-branch',origin:'Buenos Aires',dest:'Salta',
+    steps:[
+      {date:'16/06 10:00',text:'Paquete recibido en sucursal',loc:'Sucursal Newbery – CABA',done:true,cur:false},
+      {date:'16/06 20:00',text:'En tránsito al norte',loc:'En ruta',done:true,cur:false},
+      {date:'18/06 08:00',text:'Disponible para retiro',loc:'Sucursal Salta Capital',done:true,cur:true},
+      {date:'Pendiente',text:'Entrega a domicilio',loc:'Salta',done:false,cur:false},
+    ]}
+};
+
+function trackPackage(){
+  const code=document.getElementById('trackInput').value.trim().toUpperCase();
+  const res=document.getElementById('trackResult');
+  const nf=document.getElementById('notFound');
+  res.classList.remove('show'); nf.classList.remove('show');
+  if(!code){notify('Ingresá un código de seguimiento');return;}
+  const d=DB[code];
+  if(!d){nf.classList.add('show');return;}
+  document.getElementById('tCode').textContent=code;
+  document.getElementById('tRoute').textContent=d.origin+' → '+d.dest;
+  const b=document.getElementById('tBadge');
+  b.textContent=d.status; b.className='track-badge '+d.badge;
+  document.getElementById('tTimeline').innerHTML=d.steps.map(s=>`
+    <li class="tstep ${s.done?'done':''} ${s.cur?'current':''}">
+      <div class="tdot">${s.done?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>':''}</div>
+      <div style="flex:1"><div class="tstatus">${s.text}</div><div class="tloc">${s.loc}</div></div>
+      <div class="ttime">${s.date}</div>
+    </li>`).join('');
+  res.classList.add('show');
+}
+function tryCode(c){document.getElementById('trackInput').value=c;trackPackage();document.getElementById('rastreo').scrollIntoView({behavior:'smooth',block:'center'});}
+
+// ---- COTIZADOR ----
+let tipoSeleccionado = 'estandar';
+const precios = {
+  estandar: { 1:[3500,6000,9500,15000], 2:[5500,8500,13000,21000], 3:[8000,12000,18500,29000], 4:[12000,18000,27000,42000] },
+  express:  { 1:[7000,12000,19000,30000], 2:[11000,17000,26000,42000], 3:[16000,24000,37000,58000], 4:[24000,36000,54000,84000] }
+};
+const zonaNombres = { 1:'CABA / GBA', 2:'Centro / Litoral', 3:'Interior', 4:'Patagonia' };
+const tiempos = { estandar:'3–5 días hábiles', express:'24–48 horas' };
+
+function selectTipo(t){
+  tipoSeleccionado=t;
+  document.getElementById('optEstandar').classList.toggle('selected',t==='estandar');
+  document.getElementById('optExpress').classList.toggle('selected',t==='express');
+}
+
+function calcularPrecio(){
+  const zona=parseInt(document.getElementById('cDest').value);
+  const peso=parseFloat(document.getElementById('cPeso').value);
+  if(!zona){notify('Seleccioná un destino');return;}
+  if(!peso||peso<=0){notify('Ingresá el peso del paquete');return;}
+  let rango=0;
+  if(peso<=1) rango=0;
+  else if(peso<=5) rango=1;
+  else if(peso<=20) rango=2;
+  else rango=3;
+  const precio=precios[tipoSeleccionado][zona][rango];
+  document.getElementById('calcPrecio').textContent=precio.toLocaleString('es-AR');
+  document.getElementById('calcDetalle').innerHTML=
+    `Zona: <strong>${zonaNombres[zona]}</strong> · Peso: <strong>${peso} kg</strong> · Servicio: <strong>${tipoSeleccionado==='express'?'Express':'Estándar'}</strong><br>Entrega estimada: <strong>${tiempos[tipoSeleccionado]}</strong>`;
+  document.getElementById('calcResult').classList.add('show');
+}
+
+// ---- NAVBAR ACTIVE ----
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+const sectionObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      navLinks.forEach(a=>{
+        const s=a.getAttribute('data-section');
+        a.classList.toggle('active', s===id || (id==='como'&&s==='servicios'));
+      });
+    }
+  });
+},{threshold:0.4});
+sections.forEach(s=>sectionObserver.observe(s));
+
+// ---- SCROLL ----
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  document.getElementById('navbar').classList.toggle('scrolled',y>20);
+  document.getElementById('topBtn').classList.toggle('show',y>500);
+});
+
+// ---- BACK TO TOP ----
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});}
+
+// ---- MOBILE NAV ----
+function toggleNav(){document.getElementById('mobileNav').classList.toggle('open');}
+function closeNav(){document.getElementById('mobileNav').classList.remove('open');}
+
+// ---- MISC ----
+function goContact(){document.getElementById('contacto').scrollIntoView({behavior:'smooth'});}
+function submitForm(e){e.preventDefault();notify('✅ Consulta enviada. Te contactamos pronto.');}
+
+function notify(msg){
+  const el=document.getElementById('notify');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ---- FADE IN ----
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
